@@ -15,7 +15,7 @@ Hosted on GitHub Pages.
 ### Content
 - [ ] Add all menu item photos to `/assets/images/`
 - [ ] Write descriptions for each dish
-- [ ] Organize items by category (e.g. breakfast, lunch, dinner, sides)
+- [ ] Organize items by category (mains, sides)
 
 ### Design
 - [ ] Choose color palette and typography

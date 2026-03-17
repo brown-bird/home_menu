@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --parchment:   #F6F0E4;
+      --parchment-2: #EDE4D0;
+      --ink:         #231508;
+      --ink-soft:    #5C4033;
+      --rust:        #B84A24;
+      --rust-light:  #D9714E;
+      --gold:        #C09B5B;
+      --card-bg:     #FDFAF3;
+      --border:      #D9CFBA;
+
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body:    'Lora', Georgia, serif;
+      --font-ui:      'Instrument Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--parchment);
+      color: var(--ink);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      z-index: 9999;
+    }
+
+    /* ═══════════════════════════
+       HEADER / NAV
+    ═══════════════════════════ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--parchment);
+      border-bottom: 1px solid var(--border);
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-wordmark {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: .03em;
+      color: var(--rust);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    nav a {
+      font-family: var(--font-ui);
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink-soft);
+      transition: color .2s;
+    }
+    nav a:hover { color: var(--rust); }
+
+    /* ═══════════════════════════
+       HERO
+    ═══════════════════════════ */
+    .hero {
+      position: relative;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: clamp(5rem, 12vw, 9rem) clamp(1.5rem, 8vw, 6rem) clamp(4rem, 10vw, 7rem);
+      overflow: hidden;
+    }
+
+    /* decorative ruled lines */
+    .hero::before,
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(520px, 90vw);
+      height: 1px;
+      background: var(--gold);
+      opacity: .5;
+    }
+    .hero::before { top: clamp(3.5rem, 8vw, 6rem); }
+    .hero::after  { bottom: clamp(2.5rem, 6vw, 5rem); }
+
+    .hero-eyebrow {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 8.5rem);
+      font-weight: 300;
+      line-height: .95;
+      color: var(--ink);
+      letter-spacing: -.01em;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--rust);
+      display: block;
+    }
+
+    .hero-subtitle {
+      margin-top: 1.75rem;
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: clamp(.95rem, 2vw, 1.15rem);
+      color: var(--ink-soft);
+      max-width: 36ch;
+      line-height: 1.6;
+    }
+
+    .hero-ornament {
+      margin: 1.75rem auto 0;
+      width: 60px;
+      height: 1px;
+      background: var(--rust);
+      opacity: .4;
+      position: relative;
+    }
+    .hero-ornament::before,
+    .hero-ornament::after {
+      content: '◆';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: .4rem;
+      color: var(--rust);
+      opacity: .8;
+    }
+    .hero-ornament::before { left: -1rem; }
+    .hero-ornament::after  { right: -1rem; }
+
+    /* ═══════════════════════════
+       CATEGORY FILTER BAR
+    ═══════════════════════════ */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+      padding: 0 1.5rem 3.5rem;
+    }
+
+    .filter-btn {
+      font-family: var(--font-ui);
+      font-size: .73rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--ink-soft);
+      padding: .45rem 1.1rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--rust);
+      border-color: var(--rust);
+      color: #fff;
+    }
+
+    /* ═══════════════════════════
+       SECTION / GRID
+    ═══════════════════════════ */
+    .menu-section {
+      padding: 0 clamp(1.5rem, 5vw, 4rem) 5rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+
+    .section-rule {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+      gap: 1.5rem;
+    }
+
+    /* ═══════════════════════════
+       CARD
+    ═══════════════════════════ */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .25s ease, box-shadow .25s ease;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 36px rgba(35,21,8,.1);
+    }
+
+    /* Photo area — warm tinted placeholders */
+    .card-photo {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      display: grid;
+      place-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Placeholder pattern when no image */
+    .card-photo.placeholder {
+      background-color: var(--parchment-2);
+    }
+    .card-photo.placeholder::after {
+      content: attr(data-label);
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-style: italic;
+      color: var(--border);
+    }
+
+    .card-category-badge {
+      position: absolute;
+      top: .75rem;
+      left: .75rem;
+      font-family: var(--font-ui);
+      font-size: .65rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: var(--rust);
+      color: #fff;
+      padding: .25rem .6rem;
+      border-radius: 2px;
+    }
+
+    .card-body {
+      padding: 1.25rem 1.4rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .card-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .card-desc {
+      font-family: var(--font-body);
+      font-size: .88rem;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* ═══════════════════════════
+       FOOTER
+    ═══════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+    }
+
+    footer p {
+      font-family: var(--font-ui);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ═══════════════════════════
+       ANIMATION
+    ═══════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow  { animation: fadeUp .6s ease both; }
+    .hero-title    { animation: fadeUp .6s .1s ease both; }
+    .hero-subtitle { animation: fadeUp .6s .2s ease both; }
+    .hero-ornament { animation: fadeUp .6s .3s ease both; }
+    .filter-bar    { animation: fadeUp .6s .35s ease both; }
+
+    .card {
+      opacity: 0;
+      animation: fadeUp .5s ease forwards;
+    }
+
+    /* ═══════════════════════════
+       RESPONSIVE
+    ═══════════════════════════ */
+    @media (max-width: 600px) {
+      nav { display: none; }
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header>
+    <span class="nav-wordmark">Home Menu</span>
+    <nav>
+      <a href="#mains">Mains</a>
+      <a href="#sides">Sides</a>
+    </nav>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <p class="hero-eyebrow">Made with love, eaten together</p>
+    <h1 class="hero-title">
+      What's<br>
+      <em>for dinner?</em>
+    </h1>
+    <p class="hero-subtitle">One meal a day, made well — a collection of the dishes we come home to.</p>
+    <div class="hero-ornament"></div>
+  </section>
+
+  <!-- ── Filter bar ── -->
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="mains">Mains</button>
+    <button class="filter-btn" data-filter="sides">Sides</button>
+  </div>
+
+  <!-- ── Menu Sections (rendered by JS) ── -->
+  <main id="menu-root">
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>Home Menu &mdash; Made at home, always</p>
+  </footer>
+
+  <script>
+    // ── Dish data ──────────────────────────────────────────────────────────────
+    // To add a photo: set image to the file path, e.g. "assets/images/med-chicken.jpg"
+    const dishes = [
+      // ── Mains ──
+      { category: 'mains', name: 'Mediterranean Chicken Plate', image: 'assets/images/med-chicken-plate.jpeg',
+        desc: 'Grilled herb chicken over a potato bowl with Greek salad, olives, and tzatziki. Our most-requested weeknight dinner.' },
+      { category: 'mains', name: 'Asian Steak with Rice Noodles & Sweet Chili Sauce', image: null,
+        desc: 'Thinly sliced steak over cold rice noodles with crisp vegetables and a tangy sweet chili drizzle.' },
+      { category: 'mains', name: "Evelyn's Favorite Pasta", image: null,
+        desc: 'The pasta Evelyn asks for every time. A family classic with a sauce that gets better the longer it simmers.' },
+      { category: 'mains', name: 'Super Chicken Salad', image: 'assets/images/super-chicken-salad.JPG',
+        desc: 'A hearty grilled chicken salad loaded with fresh vegetables and house dressing. Clean, filling, and endlessly satisfying.' },
+      { category: 'mains', name: 'Jambalaya', image: null,
+        desc: 'A rich, smoky one-pot of sausage, shrimp, rice, and the holy trinity. Louisiana comfort in a bowl.' },
+      { category: 'mains', name: 'Detroit Style Pizza', image: null,
+        desc: 'Thick, square, and unapologetically crispy on the bottom. Loaded with toppings and baked in a well-oiled pan.' },
+      { category: 'mains', name: 'Burger Steaks with Potato Salad', image: null,
+        desc: 'Thick, pan-seared burger steaks alongside a creamy homemade potato salad. A weekend staple.' },
+      { category: 'mains', name: 'Veggie Chili & Cornbread', image: null,
+        desc: 'Hearty, spiced vegetable chili served alongside golden skillet cornbread. Perfect for a cold evening.' },
+      { category: 'mains', name: "Pork Chops with Mac n' Cheese & Broccoli", image: 'assets/images/pork-chops-mac.jpeg',
+        desc: 'Pan-seared pork chops with creamy macaroni and cheese and steamed broccoli. Simple and satisfying.' },
+      { category: 'mains', name: 'Fried Shrimp, Baked Potato & Coleslaw', image: 'assets/images/fried-shrimp-bpotato-coleslaw.JPG',
+        desc: 'Crispy golden shrimp alongside a loaded baked potato and creamy homemade coleslaw.' },
+      { category: 'mains', name: 'Steak Fajitas', image: null,
+        desc: 'Sizzling marinated skirt steak with peppers and onions, served with warm tortillas, rice, and beans.' },
+      { category: 'mains', name: 'Chicken Fajitas', image: null,
+        desc: 'Juicy marinated chicken strips with peppers and onions, served with rice, beans, and all the fixings.' },
+      { category: 'mains', name: 'Chicken Caesar Wraps', image: null,
+        desc: 'Grilled chicken, crisp romaine, and parmesan wrapped in a toasted flour tortilla. Quick and always good.' },
+      { category: 'mains', name: 'Zuppa Toscana', image: null,
+        desc: 'A creamy, spiced Italian soup with sausage, kale, and potatoes. Served with warm bread.' },
+      { category: 'mains', name: 'Jalapeño Salsa Grilled Steak with Rice', image: null,
+        desc: 'Grilled steak served over white rice with a bright, smoky jalapeño salsa.' },
+      { category: 'mains', name: 'Carne Asada Fries', image: 'assets/images/carne-asada-chips.jpeg',
+        desc: 'A California classic — crispy fries topped with grilled carne asada, cheese, guacamole, and sour cream.' },
+      { category: 'mains', name: 'Shrimp Pad Thai', image: null,
+        desc: 'Wok-tossed rice noodles with shrimp, egg, bean sprouts, and a tamarind-peanut sauce.' },
+      { category: 'mains', name: 'Minestrone Soup & Grilled Cheese', image: null,
+        desc: 'A thick, vegetable-packed Italian minestrone alongside a perfectly golden grilled cheese sandwich.' },
+      { category: 'mains', name: 'Super Steak Salad', image: 'assets/images/super-steak-salad.jpeg',
+        desc: 'Sliced grilled steak over a generous salad with bold toppings and a tangy dressing.' },
+      { category: 'mains', name: 'NY Style Pizza', image: 'assets/images/pizza.jpeg',
+        desc: 'New York-style pizza with a thin, foldable crust. Classic pepperoni and sausage, or whatever the night calls for.' },
+      { category: 'mains', name: 'Veggie Fideua', image: 'assets/images/fideaua-brocolli-roasted-potatoes.jpeg',
+        desc: 'A Spanish noodle dish cooked like paella, packed with vegetables and finished in the oven.' },
+      { category: 'mains', name: 'Broccoli Spaghetti', image: 'assets/images/veggie-spaghetti.JPG',
+        desc: 'Simple, garlicky spaghetti tossed with roasted broccoli and parmesan. A quick weeknight win.' },
+      { category: 'mains', name: 'Spaghetti & Meatballs with Caesar Salad', image: null,
+        desc: 'Classic Sunday spaghetti with hand-rolled meatballs and a caesar salad alongside.' },
+      { category: 'mains', name: 'Arroz Caldoso', image: 'assets/images/arroz-caldoso.JPG',
+        desc: 'A Spanish soupy rice dish — somewhere between paella and risotto, deeply savory and warming.' },
+      { category: 'mains', name: 'Broccoli Cheddar Soup', image: null,
+        desc: 'A thick, velvety soup loaded with broccoli and sharp cheddar.' },
+      { category: 'mains', name: 'Black Bean Burgers with Tuna Mac', image: 'assets/images/bb-on-rice-burgers-tunamac-brocolli.JPG',
+        desc: 'House-made black bean patties alongside a creamy tuna macaroni salad.' },
+      { category: 'mains', name: 'Black Bean Burgers, Rice, Deviled Eggs & Broccoli', image: 'assets/images/black-bean-burgers-on-rice.JPG',
+        desc: 'Seasoned black bean patties over rice with steamed broccoli and classic deviled eggs on the side.' },
+      { category: 'mains', name: 'Grilled Chicken Alfredo & Broccoli', image: null,
+        desc: 'Fettuccine Alfredo with grilled chicken and broccoli florets.' },
+      { category: 'mains', name: 'Katsu Chicken, Spinach & Rice', image: null,
+        desc: 'Crispy panko-breaded chicken cutlet over white rice with wilted sesame spinach.' },
+      { category: 'mains', name: 'Five Guys Burgers & Fries', image: null,
+        desc: 'Indulgent, loaded burgers with hand-cut or curly fries. A treat night.' },
+      { category: 'mains', name: 'Roast Beef, Mashed Potatoes & Green Beans', image: null,
+        desc: 'A Sunday roast done right — tender beef, silky mash, and buttered green beans.' },
+      { category: 'mains', name: 'Steak à Poivre, Garlic Roasted Potatoes & Caprese', image: null,
+        desc: 'A pepper-crusted steak with a brandy cream sauce, alongside crispy potatoes and a fresh caprese salad.' },
+      { category: 'mains', name: 'Grilled Shrimp Tacos with Mango Salsa', image: null,
+        desc: 'Charred shrimp tacos with a sweet mango salsa, black beans, and cilantro lime rice.' },
+      { category: 'mains', name: 'Shrimp Scampi over Pasta', image: null,
+        desc: 'Garlicky, buttery shrimp tossed with pasta and finished with white wine and lemon.' },
+      { category: 'mains', name: 'That Crab Pasta', image: null,
+        desc: 'A rich, indulgent pasta with crab meat and a light cream sauce. A special occasion dish.' },
+      { category: 'mains', name: 'Swedish Meatballs over Pasta', image: null,
+        desc: 'Tender, creamy Swedish meatballs served over pasta with a caesar salad on the side.' },
+      { category: 'mains', name: 'Teriyaki Chicken with Veggies & Rice', image: null,
+        desc: 'Sticky teriyaki-glazed chicken over steamed rice with mixed vegetables.' },
+      { category: 'mains', name: 'Chicken Tortilla Soup', image: null,
+        desc: 'A hearty, smoky chicken soup with tortilla strips, avocado, and all the toppings.' },
+      { category: 'mains', name: 'Creamy Tomato Soup & Grilled Cheese', image: null,
+        desc: 'Rich, velvety tomato soup with a golden, buttery grilled cheese for dipping.' },
+      { category: 'mains', name: 'Pork Fried Rice & Steamed Cabbage', image: null,
+        desc: 'Wok-fried pork and rice with soy and sesame, alongside simply steamed cabbage.' },
+      { category: 'mains', name: 'Veggie Tostadas', image: null,
+        desc: 'Crispy corn tostadas with seasoned beans, fresh vegetables, and a tangy crema.' },
+      { category: 'mains', name: 'Grilled Fish, Mashed Potatoes & Broccoli', image: null,
+        desc: 'Simply grilled fish over creamy mashed potatoes with steamed broccoli.' },
+      { category: 'mains', name: 'Grilled Fish with Jamaican Cabbage & Baked Potato', image: 'assets/images/grilled-fish-jamaican-cabbage.jpeg',
+        desc: 'Seasoned grilled fish alongside boldly spiced Jamaican-style cabbage and a loaded baked potato.' },
+      { category: 'mains', name: "Fried Chicken Strips, Mac n' Cheese & Broccoli", image: null,
+        desc: 'Crispy fried chicken strips alongside classic mac and cheese and steamed broccoli.' },
+      { category: 'mains', name: 'Papas Tacos, Rice & Beans', image: null,
+        desc: 'Crispy potato tacos with salsa and cream, served with rice and beans. A family favorite.' },
+      { category: 'mains', name: 'Grilled Chicken Carb Bowl', image: 'assets/images/chicken-carb-bowl.jpeg',
+        desc: 'Grilled chicken over a hearty base of roasted potatoes, corn, and rice.' },
+      { category: 'mains', name: 'Chicken & Broccoli Ramen', image: null,
+        desc: 'Rich ramen broth with chicken, broccoli, soft-boiled egg, and noodles.' },
+      { category: 'mains', name: 'Farmers Platter', image: null,
+        desc: 'A generous spread of seasonal vegetables, meats, and sides. The everything plate.' },
+      { category: 'mains', name: 'Spaghetti with Meat Sauce & Garden Salad', image: null,
+        desc: 'Spaghetti bolognese with a rich, slow-cooked meat sauce and a fresh garden salad.' },
+      { category: 'mains', name: 'Fried Catfish & Cornbread', image: 'assets/images/fried-catfish-cornbread.JPG',
+        desc: 'Crispy cornmeal-crusted catfish alongside a golden wedge of skillet cornbread. Southern comfort at its best.' },
+      { category: 'mains', name: "Crab Cakes with Mac n' Cheese", image: 'assets/images/crab-cakes-mac.JPG',
+        desc: 'Pan-seared crab cakes with a crispy crust alongside creamy macaroni and cheese.' },
+      { category: 'mains', name: 'Fish & Chips', image: 'assets/images/fish-n-chips.JPG',
+        desc: 'Beer-battered fish and thick-cut chips. A classic done right.' },
+      { category: 'mains', name: 'Arroz al Horno', image: 'assets/images/arroz-al-horno.JPG',
+        desc: 'A Spanish baked rice dish with sausage, chickpeas, and tomato — crusty on top, tender underneath.' },
+      { category: 'mains', name: 'Arroz al Horno with Scallops', image: 'assets/images/arroz-al-horno-scallops.JPG',
+        desc: 'The Spanish baked rice, elevated with seared scallops on top. A special occasion version.' },
+      { category: 'mains', name: "Fried Halibut, Mac n' Cheese & Broccoli", image: 'assets/images/fried-halibut-mac-brocolli.JPG',
+        desc: 'Crispy fried halibut alongside creamy mac and cheese and steamed broccoli.' },
+      { category: 'mains', name: 'Black Bean Burgers with Mac & Brussels Sprouts', image: 'assets/images/black-bean-burgers-mac-sprouts.JPG',
+        desc: 'Seasoned black bean patties alongside creamy mac and cheese and roasted brussels sprouts.' },
+
+      // ── Sides ──
+      { category: 'sides', name: 'Garlic Roasted Potatoes', image: null,
+        desc: 'Crispy, golden potatoes roasted with olive oil and plenty of garlic. A go-to alongside almost anything.' },
+      { category: 'sides', name: 'Potato Salad', image: null,
+        desc: 'Creamy homemade potato salad. Classic, simple, and always the first thing to disappear.' },
+      { category: 'sides', name: 'Caesar Salad', image: null,
+        desc: 'Crisp romaine, shaved parmesan, and a bold, garlicky caesar dressing. No croutons for Papa.' },
+      { category: 'sides', name: 'Cornbread', image: null,
+        desc: 'Golden, slightly sweet skillet cornbread. Essential alongside a bowl of chili or soup.' },
+      { category: 'sides', name: 'Coleslaw', image: null,
+        desc: 'Creamy, tangy coleslaw with a light hand on the dressing. The cool contrast to crispy fried things.' },
+    ];
+
+    // ── Render ─────────────────────────────────────────────────────────────────
+    const root = document.getElementById('menu-root');
+
+    const categories = [...new Set(dishes.map(d => d.category))];
+
+    categories.forEach(cat => {
+      const section = document.createElement('section');
+      section.className = 'menu-section';
+      section.id = cat;
+      section.dataset.category = cat;
+
+      const label = cat.charAt(0).toUpperCase() + cat.slice(1);
+      section.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">${label}</h2>
+          <div class="section-rule"></div>
+        </div>
+        <div class="menu-grid"></div>`;
+
+      const grid = section.querySelector('.menu-grid');
+
+      dishes.filter(d => d.category === cat).forEach(dish => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.dataset.category = cat;
+
+        const photoContent = dish.image
+          ? `<img src="${dish.image}" alt="${dish.name}" loading="lazy">`
+          : '';
+
+        card.innerHTML = `
+          <div class="card-photo${dish.image ? '' : ' placeholder'}" data-label="◉">
+            ${photoContent}
+          </div>
+          <div class="card-body">
+            <h3 class="card-name">${dish.name}</h3>
+            <p class="card-desc">${dish.desc}</p>
+          </div>`;
+
+        grid.appendChild(card);
+      });
+
+      root.appendChild(section);
+    });
+
+    // ── Staggered reveal ───────────────────────────────────────────────────────
+    document.querySelectorAll('.card').forEach((card, i) => {
+      card.style.animationDelay = `${0.4 + i * 0.04}s`;
+    });
+
+    // ── Category filter ────────────────────────────────────────────────────────
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        document.querySelectorAll('.menu-section').forEach(sec => {
+          sec.style.display = (filter === 'all' || sec.dataset.category === filter) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+</body>
+</html>
