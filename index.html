@@ -362,6 +362,45 @@
     }
 
     /* ═══════════════════════════
+       SCROLL-TO-TOP BUTTON
+    ═══════════════════════════ */
+    .scroll-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 1.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--parchment);
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(35,21,8,.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 50;
+    }
+    .scroll-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .scroll-top svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--ink-soft);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .scroll-top:hover svg { stroke: var(--rust); }
+
+    /* ═══════════════════════════
        RESPONSIVE
     ═══════════════════════════ */
     @media (max-width: 600px) {
@@ -403,6 +442,11 @@
   <main id="menu-root">
 
   </main>
+
+  <!-- ── Scroll to top ── -->
+  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
 
   <!-- ── Footer ── -->
   <footer>
@@ -597,6 +641,12 @@
     document.querySelectorAll('.card').forEach((card, i) => {
       card.style.animationDelay = `${0.4 + i * 0.04}s`;
     });
+
+    // ── Scroll-to-top visibility ───────────────────────────────────────────────
+    const scrollTopBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+    }, { passive: true });
 
     // ── Category filter ────────────────────────────────────────────────────────
     const filterBtns = document.querySelectorAll('.filter-btn');
