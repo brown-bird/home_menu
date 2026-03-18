@@ -36,6 +36,19 @@
       overflow-x: hidden;
     }
 
+    /* ── Safe area cover (iPhone notch/dynamic island) ── */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: env(safe-area-inset-top);
+      background: var(--parchment);
+      z-index: 200;
+      pointer-events: none;
+    }
+
     /* ── Noise texture overlay ── */
     body::before {
       content: '';
@@ -58,11 +71,12 @@
       z-index: 100;
       background: var(--parchment);
       border-bottom: 1px solid var(--border);
-      padding: env(safe-area-inset-top) clamp(1.5rem, 5vw, 4rem) 0;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: calc(56px + env(safe-area-inset-top));
+      height: 56px;
+      margin-top: env(safe-area-inset-top);
     }
 
     .nav-wordmark {
@@ -419,7 +433,7 @@
       // ── Mains ──
       { category: 'mains', name: 'Mediterranean Chicken Plate', image: 'assets/images/web/med-chicken-plate.jpeg',
         desc: 'Grilled herb chicken over a potato bowl with Greek salad, olives, and tzatziki. Our most-requested weeknight dinner.' },
-      { category: 'mains', name: 'Asian Steak with Rice Noodles & Sweet Chili Sauce', image: 'assets/images/web/asian-steak-rice-noodles.JPG',
+      { category: 'mains', name: 'Asian Steak with Rice Noodles & Sweet Chili Sauce', image: 'assets/images/web/asian-steak-rice-noodles.jpeg',
         desc: 'Thinly sliced steak over cold rice noodles with crisp vegetables and a tangy sweet chili drizzle.' },
       { category: 'mains', name: "Evelyn's Favorite Pasta", image: null,
         desc: 'The pasta Evelyn asks for every time. A family classic with a sauce that gets better the longer it simmers.' },
