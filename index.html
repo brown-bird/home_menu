@@ -34,7 +34,6 @@
       font-family: var(--font-body);
       min-height: 100vh;
       overflow-x: hidden;
-      padding-top: calc(56px + env(safe-area-inset-top, 0px));
     }
 
     /* ── Noise texture overlay ── */
@@ -51,48 +50,58 @@
     }
 
     /* ═══════════════════════════
-       HEADER / NAV
+       BOTTOM NAV
     ═══════════════════════════ */
-    header {
+    .bottom-nav {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
       right: 0;
       z-index: 100;
       background: var(--parchment);
-      border-bottom: 1px solid var(--border);
-      padding: env(safe-area-inset-top, 0px) clamp(1.5rem, 5vw, 4rem) 0;
+      border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      height: calc(56px + env(safe-area-inset-top, 0px));
+      justify-content: space-around;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      height: calc(56px + env(safe-area-inset-bottom, 0px));
     }
 
-    .nav-wordmark {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: .03em;
-      color: var(--rust);
-    }
-
-    nav {
-      display: flex;
-      gap: 1.75rem;
-      list-style: none;
-    }
-
-    nav a {
+    .bottom-nav a,
+    .bottom-nav button {
       font-family: var(--font-ui);
-      font-size: .78rem;
+      font-size: .72rem;
       font-weight: 500;
-      letter-spacing: .08em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--ink-soft);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: .5rem 1.5rem;
       transition: color .2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .3rem;
     }
-    nav a:hover { color: var(--rust); }
+
+    .bottom-nav a:hover,
+    .bottom-nav button:hover { color: var(--rust); }
+
+    .bottom-nav svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* pad content so last cards clear the nav */
+    main, footer { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
 
     /* ═══════════════════════════
        HERO
@@ -371,21 +380,11 @@
        RESPONSIVE
     ═══════════════════════════ */
     @media (max-width: 600px) {
-      nav { display: none; }
       .menu-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ── Header ── -->
-  <header>
-    <span class="nav-wordmark">Home Menu</span>
-    <nav>
-      <a href="#mains">Mains</a>
-      <a href="#sides">Sides</a>
-    </nav>
-  </header>
 
   <!-- ── Hero ── -->
   <section class="hero">
@@ -414,6 +413,22 @@
   <footer>
     <p>Home Menu &mdash; Made at home, always</p>
   </footer>
+
+  <!-- ── Bottom Nav ── -->
+  <nav class="bottom-nav">
+    <a href="#mains">
+      <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      Mains
+    </a>
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      Top
+    </button>
+    <a href="#sides">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM2 12h20"/></svg>
+      Sides
+    </a>
+  </nav>
 
   <script>
     // ── Dish data ──────────────────────────────────────────────────────────────
