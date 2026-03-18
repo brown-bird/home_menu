@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Home Menu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -63,8 +63,7 @@
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      height: calc(56px + env(safe-area-inset-bottom, 0px));
+      height: 56px;
     }
 
     .bottom-nav a,
@@ -101,7 +100,7 @@
     }
 
     /* pad content so last cards clear the nav */
-    main, footer { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); }
+    main, footer { padding-bottom: 72px; }
 
     /* ═══════════════════════════
        HERO
