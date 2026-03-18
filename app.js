@@ -10,7 +10,7 @@ const dishes = [
     desc: 'Grilled herb chicken over a potato bowl with Greek salad, olives, and tzatziki. Our most-requested weeknight dinner.' },
   { category: 'mains', name: 'Asian Steak with Rice Noodles & Sweet Chili Sauce', image: 'assets/images/web/asian-steak-rice-noodles.jpeg',
     desc: 'Thinly sliced steak over cold rice noodles with crisp vegetables and a tangy sweet chili drizzle.' },
-  { category: 'mains', name: "Evelyn's Favorite Pasta", image: null,
+  { category: 'mains', name: "Evelyn's Favorite Pasta", image: 'assets/images/web/evelyns-pasta.jpeg',
     desc: 'The pasta Evelyn asks for every time. A family classic with a sauce that gets better the longer it simmers.' },
   { category: 'mains', name: 'Super Chicken Salad', image: 'assets/images/web/super-chicken-salad.JPG',
     desc: 'A hearty grilled chicken salad loaded with fresh vegetables and house dressing. Clean, filling, and endlessly satisfying.' },
