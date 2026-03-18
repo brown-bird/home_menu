@@ -34,19 +34,7 @@
       font-family: var(--font-body);
       min-height: 100vh;
       overflow-x: hidden;
-    }
-
-    /* ── Safe area cover (iPhone notch/dynamic island) ── */
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: env(safe-area-inset-top);
-      background: var(--parchment);
-      z-index: 200;
-      pointer-events: none;
+      padding-top: calc(56px + env(safe-area-inset-top, 0px));
     }
 
     /* ── Noise texture overlay ── */
@@ -66,16 +54,18 @@
        HEADER / NAV
     ═══════════════════════════ */
     header {
-      position: sticky;
-      top: env(safe-area-inset-top);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       background: var(--parchment);
       border-bottom: 1px solid var(--border);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      padding: env(safe-area-inset-top, 0px) clamp(1.5rem, 5vw, 4rem) 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 56px;
+      height: calc(56px + env(safe-area-inset-top, 0px));
     }
 
     .nav-wordmark {
