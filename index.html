@@ -50,45 +50,6 @@
     }
 
     /* ═══════════════════════════
-       HEADER / NAV
-    ═══════════════════════════ */
-    header {
-      background: var(--parchment);
-      border-bottom: 1px solid var(--border);
-      padding: 0 clamp(1.5rem, 5vw, 4rem);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-    }
-
-    .nav-wordmark {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 600;
-      letter-spacing: .03em;
-      color: var(--rust);
-    }
-
-    nav {
-      display: flex;
-      gap: 1.75rem;
-      list-style: none;
-    }
-
-    nav a {
-      font-family: var(--font-ui);
-      font-size: .78rem;
-      font-weight: 500;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--ink-soft);
-      transition: color .2s;
-    }
-    nav a:hover { color: var(--rust); }
-
-    /* ═══════════════════════════
        HERO
     ═══════════════════════════ */
     .hero {
@@ -404,21 +365,11 @@
        RESPONSIVE
     ═══════════════════════════ */
     @media (max-width: 600px) {
-      nav { display: none; }
       .menu-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-
-  <!-- ── Header ── -->
-  <header>
-    <span class="nav-wordmark">Home Menu</span>
-    <nav>
-      <a href="#mains">Mains</a>
-      <a href="#sides">Sides</a>
-    </nav>
-  </header>
 
   <!-- ── Hero ── -->
   <section class="hero">
