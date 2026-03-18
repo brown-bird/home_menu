@@ -67,7 +67,7 @@
     ═══════════════════════════ */
     header {
       position: sticky;
-      top: 0;
+      top: env(safe-area-inset-top);
       z-index: 100;
       background: var(--parchment);
       border-bottom: 1px solid var(--border);
@@ -76,7 +76,6 @@
       align-items: center;
       justify-content: space-between;
       height: 56px;
-      margin-top: env(safe-area-inset-top);
     }
 
     .nav-wordmark {
